@@ -17,4 +17,4 @@ Citation
     title = Inventory Management with Attention-Based Meta Actions,
     booktitle = IEEE Conference on Games (CoG),
     year = 2021,
-}
+    }
