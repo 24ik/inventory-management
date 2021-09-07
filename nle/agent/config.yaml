@@ -1,0 +1,112 @@
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+env:
+  fn_penalty_step: constant
+  penalty_time: 0.0
+  penalty_step: 0
+  reward_lose: 0
+  reward_win: 1
+  max_num_steps: 1e6
+  name: score                 # score, scout, eat, gold, staircase, pet, oracle
+  character: mon-hum-neu-mal
+  reduced_action: false       # use reduced action space
+  state_counter: none         # none, coordinates
+
+# Training settings.
+num_actors: 256               # should be at least batch_size
+total_steps: 1e9
+batch_size: 32
+unroll_length: 80
+num_learner_threads: 1
+num_inference_threads: 1
+disable_cuda: false
+learner_device: cuda:1
+actor_device: cuda:0
+
+# Model settings.
+model:
+  hidden_dim: 256
+  rnn: gru                    # gru, lstm, none
+  use_index_select: true
+  field:
+    glyph_type: all_cat       # all_cat, full, gruop_id, color_char, all
+    emb_dim: 64
+    full:
+      model: cnn              # cnn, none
+      cnn:
+        depth: 5
+        mid_channel: 16
+        last_channel: 8
+    crop:
+      model: cnn              # cnn, none
+      dim: 9
+      cnn:
+        depth: 5
+        mid_channel: 16
+        last_channel: 8
+  blstats:
+    model: baseline           # baseline, none
+    use_info: useful          # useful, all
+    hidden_dim: 32
+  action:
+    model: baseline           # baseline, none
+    emb_dim: 32
+  txt:
+    emb_dim: 32
+    emb_kind: emb             # emb, onehot
+  msg:
+    model: cnn                # cnn, gru, lstm, none
+    hidden_dim: 32
+    cnn:
+      depth: 6                # must be >=5
+  inv:
+    model: baseline           # baseline, none
+    str_model: cnn            # cnn, gru, lstm
+    glyph_type: group_id      # group_id, full
+    item_emb_dim: 32
+    hidden_dim: 64
+    attn:
+      key_dim: 16
+    emb_ratio:
+      glyphs: 1
+      letters: 0
+      oclasses: 1
+      strs: 0
+    cnn:
+      depth: 6                # must be >=5
+  policy:
+    model: meta               # meta, baseline
+
+# Loss settings.
+loss:
+  entropy_cost:
+    virtual: 0.0005           # use when model.policy.model==baseline
+    item: 0.0005
+  baseline_cost: 1.0
+
+# Reward settings.
+discounting: 0.999
+reward_clipping: tim          # use none with normalize_reward, else use tim
+normalize_reward: false       # true is reliable across tasks, but false & tim-clip is best on score
+
+# Optimizer settings.
+opt:
+  learning_rate: 0.0002
+  # rmsprop settings
+  alpha: 0.99
+  momentum: 0
+  epsilon: 1e-6
+
+grad_norm_clipping: 40

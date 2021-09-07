@@ -1,0 +1,60 @@
+---
+name: Build & deploy Docker images
+
+on:
+  schedule:
+    - cron: "0 6,18 * * *"
+  push:
+    paths:
+      - "docker/Dockerfile*"
+    tags-ignore:
+      # We ignore all tags, since paths filters don't work for tags events, and
+      # we use releases instead.
+      - "*"
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "docker/Dockerfile*"
+  release:
+    types: [released]
+
+jobs:
+  build_and_publish:
+    name: Build and Publish Ubuntu Images
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro: ["xenial", "bionic", "focal"]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: ${{ format('Build {0} image (& Publish - Release Only)', matrix.distro) }}
+      uses: docker/build-push-action@v1
+      with:
+        username: edran
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: ${{ format('fairnle/nle-{0}', matrix.distro) }}
+        dockerfile: ${{ format('docker/Dockerfile-{0}', matrix.distro) }}
+        tags: dev
+        tag_with_sha: true
+        add_git_labels: true
+        push: ${{ github.ref == 'master' || ( github.event_name == 'release' && github.even.action == 'released' ) }} 
+    - name: Check Version Matches Release Tag (Release Only)
+      if: github.event_name == 'release' && github.event.action == 'released'
+      run: |
+        echo "v$(cat version.txt)"
+        echo "${{ github.event.release.tag_name }}"
+        [[ "${{ github.event.release.tag_name }}" == "v$(cat version.txt)" ]]
+    - name: Push Version Tag (Release Only)
+      if: github.event_name == 'release' && github.event.action == 'released'
+      uses: docker/build-push-action@v1
+      with:
+        username: edran
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: ${{ format('fairnle/nle-{0}', matrix.distro) }}
+        dockerfile: ${{ format('docker/Dockerfile-{0}', matrix.distro) }}
+        tags: ${{ github.event.release.tag_name }},stable
+        add_git_labels: true
+        push: true
