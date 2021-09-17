@@ -2,7 +2,7 @@
 Inventory Management with Attention-Based Meta Actions
 ######################################################
 
-This is an official code of "Keisuke Izumiya and Edgar Simo-Serra, Inventory Management with Attention-Based Meta Actions, IEEE Conference on Games (CoG), 2021."
+This is an official code of "Keisuke Izumiya and Edgar Simo-Serra, `Inventory Management with Attention-Based Meta Actions <https://esslab.jp/~izumiya/papers/izumiya2021cog/izumiya2021cog.pdf>`_, IEEE Conference on Games (CoG), 2021."
 
 Our research and source codes are based on the `NLE <https://github.com/facebookresearch/nle>`_ (Küttler et al., The NetHack Learning Environment, NeurIPS, 2021), distributed in the `Apache License 2.0 <https://www.apache.org/licenses/LICENSE-2.0>`_.
 The changes are shown in :code:`CHANGELOG.md`.
