@@ -13,7 +13,7 @@ The changes are as follows:
     - `nle/agent/models/intrinsic.py`
     - `nle/agent/models/dynamics.py`
     - `nle/agent/models/transformer.py`
-- Add [README.rst](/README.rst) and [LICENSE](/LICENSE).
+- Add [README.rst](/README.rst), [LICENSE](/LICENSE), and [cog2021.sh](/cog2021.sh).
 - Make installation easy.
     - [setup.py](/setup.py)
 - Add reduced action space.

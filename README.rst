@@ -80,6 +80,12 @@ Otherwise:
 By default, the agent's behavior is not displayed; specify the :code:`--render` option to show it.
 You can see other options by specifing :code:`-h`.
 
+***********************
+Reproduce Paper Results
+***********************
+
+Run :code:`cog2021.sh`.
+
 ********
 Citation
 ********
