@@ -149,7 +149,6 @@ if __name__ == "__main__":
         long_description=long_description,
         author="Keisuke Izumiya",
         url="https://github.com/izumiya-keisuke/inventory-management",
-        license="NetHack General Public License",
         entry_points=entry_points,
         packages=packages,
         ext_modules=[setuptools.Extension("nle", sources=[])],
