@@ -5,8 +5,8 @@ Our codes are based on [NLE](https://github.com/facebookresearch/nle) (mostly `n
 The changes are as follows:
 
 - Rename original README.
-    - `README.md` -> [README.md](/original-README.md)
-    - `README.nh` -> [README.nh](/original-README.nh)
+    - `README.md` -> [original-README.md](/original-README.md)
+    - `README.nh` -> [original-README.nh](/original-README.nh)
 - Rename NetHack license.
     - `LICENSE` -> [nethack-LICENSE](/nethack-LICENSE)
 - Remove unused files.
