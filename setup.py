@@ -156,8 +156,8 @@ if __name__ == "__main__":
         setup_requires=["pybind11>=2.2"],
         install_requires=[
             "pybind11>=2.2", "numpy>=1.16", "gym>=0.15", "hydra-core", "tqdm",
-            "libtorchbeast @ git+ssh://git@github.com/izumiya-keisuke/torchbeast.git",
-            "mmle @ git+ssh://git@github.com/izumiya-keisuke/mmle.git",
+            "libtorchbeast @ git+ssh://git@github.com/izumiya-keisuke/torchbeast.git@cog2021",
+            "mmle @ git+ssh://git@github.com/izumiya-keisuke/mmle.git@cog2021",
         ],
         extras_require=extras_deps,
         python_requires=">=3.5",
